@@ -3,6 +3,7 @@ import Layout from '../../components/Layout';
 import {Button, Form, Input, Message} from 'semantic-ui-react';
 import web3 from '../../web3';
 import campaignFactory from '../../factory';
+import { Router } from '../../routes';
 
 class CampaignNew extends Component {
     state = {
@@ -19,6 +20,8 @@ class CampaignNew extends Component {
         try {
             const accounts = await web3.eth.getAccounts();
             await campaignFactory.methods.createCampaign(this.state.minimumContribution).send({from: accounts[0]});
+
+            await Router.pushRoute('/');
         } catch (e) {
             this.setState({errorMessage: e.message});
         }

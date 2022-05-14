@@ -4,7 +4,7 @@
   "description": "first cool project in a while...",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "test": "mocha"
   },
   "author": "andrei.stefan",

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import campaignFactory from '../factory';
 import {Card, Button} from 'semantic-ui-react';
 import Layout from '../components/Layout';
+import { Link } from '../routes';
 
 class CampaignList extends Component {
 
@@ -15,7 +16,11 @@ class CampaignList extends Component {
         const campaigns = this.props.campaigns.map(campaign => (
             {
                 header: campaign,
-                description: <a>View Campaign</a>,
+                description: (
+                    <Link route={`/campaigns/${campaign}`}>
+                        <a>View Campaign</a>
+                    </Link>
+                ),
                 fluid: true
             }
         ));
@@ -27,7 +32,11 @@ class CampaignList extends Component {
         return (
             <Layout>
                 <h3>Open Campaigns</h3>
-                <Button floated="right" content="Create Campaign" icon="add circle" primary></Button>
+                <Link route={'/campaigns/new'}>
+                    <a>
+                        <Button floated="right" content="Create Campaign" icon="add circle" primary/>
+                    </a>
+                </Link>
                 {this.renderCampaigns()}
             </Layout>
         );

@@ -92,4 +92,8 @@ contract Campaign {
 
         request.complete = true;
     }
+
+    function getSummary() external view returns (uint, uint, uint, uint, address) {
+        return (address(this).balance, minimumContribution, requestCount, approversCount, manager);
+    }
 }
