@@ -29,8 +29,7 @@ contract Campaign {
     mapping(address => bool) public approvers;
     uint public approversCount;
 
-    mapping(uint => Request) public requests;
-    uint private requestCount;
+    Request[] public requests;
 
     modifier meetsMinimumContribution() {
         require(msg.value >= minimumContribution);
@@ -53,7 +52,7 @@ contract Campaign {
     }
 
     modifier hasMajorityVote(uint index) {
-        require(requests[index].approvalCount > approversCount / 2);
+        require(requests[index].approvalCount >= ((approversCount / 2) + 1));
         _;
     }
 
@@ -73,7 +72,7 @@ contract Campaign {
     }
 
     function createRequest(string memory description, uint value, address payable recipient) external onlyManager {
-        Request storage newRequest = requests[requestCount++];
+        Request storage newRequest = requests.push();
         newRequest.description = description;
         newRequest.value = value;
         newRequest.recipient = recipient;
@@ -85,7 +84,7 @@ contract Campaign {
         request.approvalCount++;
     }
 
-    function finalizeRequest(uint index) external payable onlyManager hasMajorityVote(index) notCompletedRequest(index) {
+    function finalizeRequest(uint index) external onlyManager hasMajorityVote(index) notCompletedRequest(index) {
         Request storage request = requests[index];
 
         request.recipient.transfer(request.value);
@@ -94,6 +93,10 @@ contract Campaign {
     }
 
     function getSummary() external view returns (uint, uint, uint, uint, address) {
-        return (address(this).balance, minimumContribution, requestCount, approversCount, manager);
+        return (address(this).balance, minimumContribution, requests.length, approversCount, manager);
+    }
+
+    function getRequestsCount() external view returns (uint) {
+        return requests.length;
     }
 }

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Layout from '../../components/Layout';
 import Campaign from '../../campaign';
-import { Link } from '../../routes';
+import {Link} from '../../routes';
 import {Button, Card, Grid} from 'semantic-ui-react';
 import Contribute from '../../components/Contribute';
 
@@ -70,20 +70,24 @@ class CampaignShow extends Component {
         return (
             <Layout>
                 <Grid>
-                    <Grid.Column width={12}>
-                        <h3>Campaign Details</h3>
-
-                        {this.renderCampaigns()}
-
-                        <Link route={`/campaigns/${this.props.campaignAddress}/requests`}>
-                            <a>
-                                <Button style={{marginTop: '10px'}} content="View Requests" primary/>
-                            </a>
-                        </Link>
-                    </Grid.Column>
-                    <Grid.Column width={4}>
-                        <Contribute address={this.props.campaignAddress}/>
-                    </Grid.Column>
+                    <Grid.Row>
+                        <Grid.Column width={12}>
+                            <h3>Campaign Details</h3>
+                            {this.renderCampaigns()}
+                        </Grid.Column>
+                        <Grid.Column width={4}>
+                            <Contribute address={this.props.campaignAddress}/>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Link route={`/campaigns/${this.props.campaignAddress}/requests`}>
+                                <a>
+                                    <Button content="View Requests" primary/>
+                                </a>
+                            </Link>
+                        </Grid.Column>
+                    </Grid.Row>
                 </Grid>
             </Layout>
         );
